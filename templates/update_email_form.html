@@ -1,3 +1,9 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Update Email</title>
+</head>
+<body>
 <form method="POST" action="/update_email">
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username"><br>
@@ -5,3 +11,5 @@
     <input type="text" id="email" name="email"><br>
     <input type="submit" value="Submit">
 </form>
+</body>
+</html>

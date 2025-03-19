@@ -1,9 +1,11 @@
 <html>
-    <head>
-        <title>{{ title }}</title>
-    </head>
-    <body>
-        <h1>Hello, {{user}}!</h1>
-        <h2>Time: {{time}}</h2>
-    </body>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Hello user</title>
+</head>
+<body>
+<h1>Hello, {{user}}!</h1>
+<h2>Time: {{time}}</h2>
+<img src="{{ url_for('static', filename='images/image.webp') }}" alt="Logo">
+</body>
 </html>

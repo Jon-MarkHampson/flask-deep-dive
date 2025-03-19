@@ -12,9 +12,9 @@ with open(USERS_PATH, 'r') as handle:
 time_str = datetime.now().strftime("%H:%M")
 
 
-@app.route('/')
-def home():
-    return "Hello, World! 🌍"
+# @app.route('/')
+# def home():
+#     return "Hello, World! 🌍"
 
 
 @app.route('/greet/<name>')
@@ -26,13 +26,12 @@ def show_post(post_id):
     # The variable 'post_id' is an integer.
     return f"Post {post_id}"
 
-# @app.route('/')
-# def index():
-#     time_str = datetime.now().strftime("%H:%M")
-#     # Retrieve the 'name' parameter; default to 'Alice' if not provided
-#     user_name = request.args.get('name', 'Alice')
-#
-#     return render_template('index.html', user=user_name, time=time_str)
+@app.route('/')
+def index():
+    # Retrieve the 'name' parameter; default to 'Alice' if not provided
+    user_name = request.args.get('name', 'Alice')
+
+    return render_template('index.html', user=user_name, time=time_str)
 
 
 @app.route('/form')
@@ -84,7 +83,15 @@ def update_country():
 def update_country_form():
     return render_template('update_country_form.html')
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
+
 
 if __name__ == "__main__":
     # Launch the Flask dev server
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="0.0.0.0", port=5001, debug=False)
