@@ -1,0 +1,17 @@
+{
+    "Alice": {
+        "age": 25,
+        "country": "USA",
+        "email": "alice@masterschool.com"
+    },
+    "Bob": {
+        "age": 30,
+        "country": "USA",
+        "email": "bob@masterschool.com"
+    },
+    "Charlie": {
+        "age": 35,
+        "country": "Australia",
+        "email": ""
+    }
+}

@@ -1,28 +1,88 @@
+import json
 from flask import Flask, render_template, request
 from datetime import datetime
 
+USERS_PATH = "users.json"
+
 app = Flask(__name__)
 
-users = {
-    'Alice': {'age': 25, 'country': 'USA'},
-    'Bob': {'age': 30, 'country': 'UK'},
-    'Charlie': {'age': 35, 'country': 'Australia'}
-}
+with open(USERS_PATH, 'r') as handle:
+    users = json.load(handle)
+
+time_str = datetime.now().strftime("%H:%M")
 
 
 @app.route('/')
-def index():
-    time_str = datetime.now().strftime("%H:%M:%S")
+def home():
+    return "Hello, World! 🌍"
 
-    # Retrieve the 'name' parameter; default to 'Alice' if not provided
-    user_name = request.args.get('name', 'Alice')
 
-    return render_template('index.html', title='Home', user=user_name, time=time_str)
+@app.route('/greet/<name>')
+def greet(name):
+    return render_template('index.html', title='Home', user=name, time=time_str)
+
+@app.route('/post/<int:post_id>')
+def show_post(post_id):
+    # The variable 'post_id' is an integer.
+    return f"Post {post_id}"
+
+# @app.route('/')
+# def index():
+#     time_str = datetime.now().strftime("%H:%M")
+#     # Retrieve the 'name' parameter; default to 'Alice' if not provided
+#     user_name = request.args.get('name', 'Alice')
+#
+#     return render_template('index.html', user=user_name, time=time_str)
 
 
 @app.route('/form')
 def form():
     return render_template('form.html')
+
+
+@app.route('/all-users')
+def all_users():
+    return render_template('all-users.html', users=users)
+
+@app.route('/update_email', methods=['POST'])
+def update_profile():
+    username = request.form['username']
+    email = request.form['email']
+
+    # Check if the user exists
+    if username in users:
+        users[username]["email"] = email
+
+        # Write the updated users dictionary back to the JSON file
+        with open(USERS_PATH, 'w') as handle:
+            json.dump(users, handle, indent=4)
+
+        return f"Updated profile of {username} with email {email}"
+    else:
+        return f"User {username} not found", 404
+
+@app.route('/update_email_form')
+def update_profile_form():
+    return render_template('update_email_form.html')
+
+@app.route('/update_country', methods=['POST'])
+def update_country():
+    username = request.form['username']
+    country = request.form['country']
+
+    # Check if the user exists
+    if username in users:
+        users[username]["country"] = country
+
+        # Write the updated users dictionary back to the JSON file
+        with open(USERS_PATH, 'w') as handle:
+            json.dump(users, handle, indent=4)
+
+    return f"Updating profile of {username} with country {country}"
+
+@app.route('/update_country_form')
+def update_country_form():
+    return render_template('update_country_form.html')
 
 
 if __name__ == "__main__":
